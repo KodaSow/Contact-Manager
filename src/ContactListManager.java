@@ -1,5 +1,6 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+package Networking;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,10 @@ public class ContactListManager {
         System.out.println("Contact added successfully.");
     }
 
-    public void removeContact(String name) {
+    public boolean removeContact(String name) {
         contacts.removeIf(contact -> contact.getName().equalsIgnoreCase(name));
         System.out.println("Contact removed successfully.");
+        return false;//altered to false
     }
 
     public void updateContact(String name, String newPhoneNumber, String newEmail) {
@@ -45,4 +47,7 @@ public class ContactListManager {
     public List<Contact> listContacts() {
         return contacts;
     }
+
+//    public void addContact(Object contact) {
+//    }
 }
