@@ -1,43 +1,56 @@
+
+
+package Networking;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-
+import java.util.List;
+import java.util.Scanner;
+////////////////////////////////////////
 public class Server {
-public static void main(String[] args) throws IOException, ClassNotFoundException {
-    ContactListManager manager = new ContactListManager();
-    manager.addContact("Alice", "123-456-7890", "alice@example.com");
-    manager.addContact("Bob", "234-567-8901", "bob@example.com");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ContactListManager manager = new ContactListManager();
 
-    ServerSocket listener = new ServerSocket(8080);
+        manager.addContact("Alice", "123-456-7890", "alice@example.com");
+        manager.addContact("Bob", "234-567-8901", "bob@example.com");
 
-    var should_exit = false;
-    while (!should_exit) {
-        var socket = listener.accept();
-        var requests = new ObjectInputStream(socket.getInputStream());
-        var responses = new ObjectOutputStream(socket.getOutputStream());
+        ServerSocket listener = new ServerSocket(8080);
+        char answer = 'y';
+       // var should_exit = false;
+        while (true){
+            var socket = listener.accept();
+            var requests = new ObjectInputStream(socket.getInputStream());
+            var responses = new ObjectOutputStream(socket.getOutputStream());
 
-        while(true) {
             Request r = (Request) requests.readObject();
+
+
+         //   while(answer == 'y'){
             switch (r.type) {
-                case List:
+                case List: {
                     responses.writeObject(new Response(manager.listContacts()));
                     break;
+                }
+                case Create: {
+                    List<Contact> contacts = (List<Contact>) r.getData();
+                    for (Contact contact : contacts) {
+                        manager.addContact(contact.getName(), contact.getPhoneNumber(), contact.getEmail());
+                    }
+                    break;
+                }
+                case Delete:{
+                    String toRemove = (String) r.getData();
+                    boolean removed = manager.removeContact(toRemove);//clm return false
+                    if(removed){
+                        responses.writeObject(new Response("removed"));
+                    }
+                    else{
+                        responses.writeObject(new Response("not found"));
+                    }
+                    break;
+                }
             }
         }
 
-
-    }
-
-
-        manager.listContacts();
-
-        // Updating a contact
-        manager.updateContact("Alice", "111-222-3333", "alice_new@example.com");
-        Contact contact = manager.getContact("Alice");
-        if (contact != null) {
-            System.out.println("Retrieved: " + contact);
-        }
-        manager.removeContact("Bob");
-        manager.listContacts();
     }}
