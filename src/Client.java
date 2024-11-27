@@ -1,4 +1,4 @@
-package Networking;
+
 
 import java.awt.*;
 import java.io.IOException;
@@ -55,7 +55,17 @@ public class Client implements Serializable {
                     String nameRemove = willRemove.nextLine();
                     requests.writeObject(new Request(RequestType.Delete, nameRemove));
                     Response r = (Response) responses.readObject();
-
+                    System.out.println(r.getMessage());
+                }
+                else if(input.startsWith("get")){
+                    Scanner getName = new Scanner(System.in);
+                    System.out.println("Enter name to find: ");
+                    String findName = getName.nextLine();
+                    requests.writeObject(new Request(RequestType.Get, findName));
+                    Response r = (Response) responses.readObject();
+                    System.out.print(r.getMessage() + " ");
+                    System.out.println();
+                    
                 }
                 socket.close();
 
