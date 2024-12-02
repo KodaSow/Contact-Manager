@@ -40,10 +40,10 @@ public class Server {
                     String toRemove = (String) r.getData();
                     boolean removed = manager.removeContact(toRemove);//clm return false
                     if(removed){
-                        responses.writeObject(new Response("removed"));
+                        responses.writeObject(new Response("not found"));
                     }
                     else{
-                        responses.writeObject(new Response("not found"));
+                        responses.writeObject(new Response("removed"));
                     }
                     break;
                 }
@@ -53,6 +53,19 @@ public class Server {
                     responses.writeObject(new Response("Okay"));
                     break;
                 }
+                case Get:{
+                    String toGet = (String) r.getData();
+                    Contact foundContact = manager.getContact(toGet);
+                    if(foundContact == null){
+                        responses.writeObject(new Response("not found"));
+                        }
+                    if(foundContact != null) {
+                        responses.writeObject((new Response(foundContact.getName() + " " + foundContact.getPhoneNumber() + " " + foundContact.getEmail())));
+
+                    } 
+              
+                }
+                break;
             }
         }
 

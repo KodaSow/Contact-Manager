@@ -17,7 +17,7 @@ public class ContactListManager {
 
     public boolean removeContact(String name) {
         contacts.removeIf(contact -> contact.getName().equalsIgnoreCase(name));
-        System.out.println("Contact removed successfully.");
+       // System.out.println("Contact removed successfully.");
         return false;//altered to false
     }
 

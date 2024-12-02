@@ -1,3 +1,5 @@
+
+
 import java.io.Serializable;
 
 public enum RequestType implements Serializable {
@@ -5,4 +7,5 @@ public enum RequestType implements Serializable {
     Delete,
     List,
     Update,
+    Get,
 }
