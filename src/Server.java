@@ -1,6 +1,3 @@
-
-
-package Networking;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,6 +45,12 @@ public class Server {
                     else{
                         responses.writeObject(new Response("not found"));
                     }
+                    break;
+                }
+                case Update:{
+                    Contact contact = (Contact) r.getData();
+                    manager.updateContact(contact.getName(), contact.getPhoneNumber(), contact.getEmail());
+                    responses.writeObject(new Response("Okay"));
                     break;
                 }
             }

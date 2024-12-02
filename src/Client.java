@@ -1,5 +1,3 @@
-package Networking;
-
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,7 +24,7 @@ public class Client implements Serializable {
                 var requests = new ObjectOutputStream(socket.getOutputStream());
                 var responses = new ObjectInputStream(socket.getInputStream());
 
-                System.out.println("add, list, remove or exit? >>> ");
+                System.out.println("Would You like to add, list, remove, update, get or exit? >>> ");
                 input = stdin.nextLine();
                 if (input.startsWith("list")) {
                     requests.writeObject(new Request(RequestType.List));
@@ -57,10 +55,21 @@ public class Client implements Serializable {
                     Response r = (Response) responses.readObject();
 
                 }
+                else if (input.startsWith("update")) {
+
+                    Scanner userUpdate = new Scanner(System.in);
+                    System.out.println("Enter contact's you want updated");
+                    String name = userUpdate.nextLine();
+                    System.out.println("Enter contact's updated phone number");
+                    String phoneNumber = userUpdate.nextLine();
+                    System.out.println("Enter contact's updates email address");
+                    String email = userUpdate.nextLine();
+                    Contact updateContact = new Contact(name,phoneNumber,email);
+                    requests.writeObject(new Request(RequestType.Update, updateContact));
+                    Response r = (Response) responses.readObject();
+                }
                 socket.close();
-
             }
-
     }
 
 }
