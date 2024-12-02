@@ -7,4 +7,5 @@ public enum RequestType implements Serializable {
     Delete,
     List,
     Get,
+    Exit,
 }
