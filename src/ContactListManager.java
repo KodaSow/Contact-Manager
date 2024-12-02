@@ -24,10 +24,9 @@ public class ContactListManager {
     }
 
     public void updateContact(String name, String newPhoneNumber, String newEmail) {
-        for (Contact contact : contacts) {
-            if (contact.getName().equalsIgnoreCase(name)) {
-                contact.setPhoneNumber(newPhoneNumber);
-                contact.setEmail(newEmail);
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).getName().equalsIgnoreCase(name)) {
+                contacts.set(i, new Contact(name, newPhoneNumber, newEmail));
                 System.out.println("Contact updated successfully.");
                 contacts = new ArrayList<Contact>(contacts);
                 return;
