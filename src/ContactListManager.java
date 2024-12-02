@@ -12,12 +12,14 @@ public class ContactListManager {
 
     public void addContact(String name, String phoneNumber, String email) {
         contacts.add(new Contact(name, phoneNumber, email));
+        contacts = new ArrayList<Contact>(contacts);
         System.out.println("Contact added successfully.");
     }
 
     public boolean removeContact(String name) {
         contacts.removeIf(contact -> contact.getName().equalsIgnoreCase(name));
-       // System.out.println("Contact removed successfully.");
+        contacts = new ArrayList<Contact>(contacts);
+        // System.out.println("Contact removed successfully.");
         return false;//altered to false
     }
 
@@ -27,9 +29,11 @@ public class ContactListManager {
                 contact.setPhoneNumber(newPhoneNumber);
                 contact.setEmail(newEmail);
                 System.out.println("Contact updated successfully.");
+                contacts = new ArrayList<Contact>(contacts);
                 return;
             }
         }
+
         System.out.println("Contact not found.");
     }
 

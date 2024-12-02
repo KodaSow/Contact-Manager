@@ -8,4 +8,5 @@ public enum RequestType implements Serializable {
     List,
     Update,
     Get,
+    Exit,
 }

@@ -11,24 +11,25 @@ import java.util.Scanner;
 public class Client implements Serializable {
 ///////////////////////////////////////
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-//        Socket socket = new Socket("127.0.0.1", 8080);
-//        var requests = new ObjectOutputStream(socket.getOutputStream());
-//        var responses = new ObjectInputStream(socket.getInputStream());
+        Socket socket = new Socket("127.0.0.1", 8080);
+        var requests = new ObjectOutputStream(socket.getOutputStream());
+        var responses = new ObjectInputStream(socket.getInputStream());
 
         Scanner stdin = new Scanner(System.in);
         String input = "";
 
 
             while (!input.startsWith("exit")) {
-                Socket socket = new Socket("127.0.0.1", 8080);
-                var requests = new ObjectOutputStream(socket.getOutputStream());
-                var responses = new ObjectInputStream(socket.getInputStream());
+//                Socket socket = new Socket("127.0.0.1", 8080);
+//                var requests = new ObjectOutputStream(socket.getOutputStream());
+//                var responses = new ObjectInputStream(socket.getInputStream());
 
-                System.out.println("Would You like to add, list, remove, update, get or exit? >>> ");
+
+                System.out.print("would you like to add, list, remove, update, get or exit? >>> ");
                 input = stdin.nextLine();
                 if (input.startsWith("list")) {
                     requests.writeObject(new Request(RequestType.List));
-
+                    System.out.println(responses.available());
                     Response r = (Response) responses.readObject();
                     System.out.println(r.contacts);
                 }
@@ -37,7 +38,6 @@ public class Client implements Serializable {
                     Scanner userAdd = new Scanner(System.in);
                     System.out.println("Enter new contact's name");
                     String name = userAdd.nextLine();
-                    name = name;
                     System.out.println("Enter new contact's phone number");
                     String phoneNumber = userAdd.nextLine();
                     System.out.println("Enter new contact's email address");
@@ -78,8 +78,13 @@ public class Client implements Serializable {
                     requests.writeObject(new Request(RequestType.Update, updateContact));
                     Response r = (Response) responses.readObject();
                 }
-                socket.close();
+                else if (input.startsWith("exit")){
+                    requests.writeObject(new Request(RequestType.Exit));
+                    Response r = (Response) responses.readObject();
+                }
+
             }
+        socket.close();
     }
 
 }
